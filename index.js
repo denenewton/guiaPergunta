@@ -22,7 +22,6 @@ connection.authenticate().then(() =>{
 app.get('/', (req, res)=>{
     Pergunta.findAll({raw: true, order:[ [ 'id', 'desc']] //ASC= CRESCENTE E DESC= DECRECENTE.
 }).then(perguntas =>{
-        console.log(perguntas)
         res.render('index', {perguntas: perguntas})
     })
     
@@ -47,7 +46,24 @@ app.post('/salvapergunta', (req, res)=>{
          console.log('Os dados nao foram iseridos')
      })
 
+})
 
+app.get('/pergunta/:id', (req, res)=>{
+    var id = req.params.id
+    Pergunta.findOne({
+        
+        where: {id: id}
+
+    }).then(pergunta => {
+
+        res.render('pergunta', {pergunta: pergunta})
+
+    }).catch(() => {
+
+        console.log('Essa pergunta nao existe')
+        res.redirect('/')
+
+    })
 })
 
 
