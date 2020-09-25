@@ -20,7 +20,8 @@ connection.authenticate().then(() =>{
 })
 
 app.get('/', (req, res)=>{
-    Pergunta.findAll({raw: true}).then(perguntas =>{
+    Pergunta.findAll({raw: true, order:[ [ 'id', 'desc']] //ASC= CRESCENTE E DESC= DECRECENTE.
+}).then(perguntas =>{
         console.log(perguntas)
         res.render('index', {perguntas: perguntas})
     })
