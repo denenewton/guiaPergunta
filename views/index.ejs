@@ -3,7 +3,7 @@
     <%- include ('partials/navbar.ejs'); %>
    <div class="container" style="margin-top: 4vh;">
      <br>
-    <h1>Perguntas</h1> <a href="perguntar" class="btn btn-primary" style=" margin: 7px auto 3px auto;">Perguntar</a>
+    <h1>Perguntas</h1> <a href="perguntar" class="btn btn-dark" style=" margin: 7px auto 3px auto;">Perguntar</a>
     <hr>
   
     <% perguntas.forEach(pergunta => {  %>
@@ -13,7 +13,7 @@
             <a href="pergunta/<%= pergunta.id %>" style="color: black; text-decoration: none;"><h3> <%= pergunta.titulo  %> </h3>  </a>
           </div>
       
-            <div><a  href= "pergunta/<%= pergunta.id %>"  class="btn btn-outline-primary" style="margin: 20px auto 20px 21px ;">Responder</a></div>
+            <div><a  href= "pergunta/<%= pergunta.id %>" class="btn btn-outline-dark" style="margin: 20px auto 20px 21px ;">Responder</a></div>
         
       </div>
 
