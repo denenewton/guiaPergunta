@@ -3,6 +3,7 @@ const app = express()
 const bodyParser = require('body-parser')
 const connection = require('./database/database')
 const Pergunta = require('./database/Pergunta')
+const Resposta = require('./database/Resposta')
 
 app.set('view engine', 'ejs')// configurando o motor de HTML, Renderizador de HTML.
  
@@ -64,6 +65,22 @@ app.get('/pergunta/:id', (req, res)=>{
         res.redirect('/')
 
     })
+})
+
+app.post('/responder', (req, res)=>{
+    var corpo = req.body.corpo
+    var perguntaId = req.body.perguntaId
+
+    Resposta.create({
+        corpo: corpo,
+        perguntaId: perguntaId
+    }).then(()=> {
+        console.log('Pergunta respondida.')
+    }).catch((erro)=>{
+        console.log('Houve um problesma ao responder' + erro)
+
+    })
+
 })
 
 

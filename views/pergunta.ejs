@@ -2,16 +2,28 @@
 <body>
     <%- include ('partials/navbar') %>
    <div class="container">
-    <h1>Pergunta</h1>
+      <br>
+    <h2>Pergunta</h2>
     <div class="card">
         <div class="card-body">
-            <%= pergunta.titulo %>
+           <h4> <%= pergunta.titulo %></h4>
         </div>
         <div class="card-body">
-            <%= pergunta.descricao %>
+           <p> <%= pergunta.descricao %></p>
         </div>
     </div>
-
+    <br>
+    <label for="corpo"><h2>Respota</h2></label>
+    <div class="card ">
+     <div class="card-body">
+      <form action="/responder" method="post">  
+         <textarea name="corpo"  rows="5" class="form-control"  placeholder="Digite aqui sua resposta."></textarea>
+         <input type="hidden" name="perguntaId" value="<%= pergunta.id %>">
+         <button type="submit" class="btn btn-primary mt-4">Responder</button>
+      </form>
+   
+     </div>
+   </div>
 
    </div>
 </body>
