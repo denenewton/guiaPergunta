@@ -51,14 +51,22 @@ app.post('/salvapergunta', (req, res)=>{
 
 app.get('/pergunta/:id', (req, res)=>{
     var id = req.params.id
-    Pergunta.findOne({
+
+    Pergunta.findOne({where: {id: id} }).then(pergunta => {
+     
+        Resposta.findAll({
+            where: {perguntaId: pergunta.id}
+
+        }).then(respostas => {
         
-        where: {id: id}
-
-    }).then(pergunta => {
-
-        res.render('pergunta', {pergunta: pergunta})
-
+                res.render('pergunta', {pergunta: pergunta, respostas: respostas})
+            
+        }).catch( ()=>{
+            let nenhuma = 'Ainda não existem respostas para essa pergunta'
+            res.render('pergunta', {pergunta: pergunta, nenhuma: nenhuma})
+        })
+    
+  
     }).catch(() => {
 
         console.log('Essa pergunta nao existe')
