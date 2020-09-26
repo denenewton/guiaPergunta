@@ -49,7 +49,7 @@ app.post('/salvapergunta', (req, res)=>{
 
 })
 
-app.get('/pergunta/:id', (req, res)=>{
+app.get('/pergunta/:id?', (req, res)=>{
     var id = req.params.id
 
     Pergunta.findOne({where: {id: id} }).then(pergunta => {
