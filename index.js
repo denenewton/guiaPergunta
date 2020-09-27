@@ -1,9 +1,12 @@
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser')
-const connection = require('./database/database')
-const Pergunta = require('./database/Pergunta')
-const Resposta = require('./database/Resposta')
+const connection = require('./database/Connection')
+const Pergunta = require('./database/models/Pergunta')
+const Resposta = require('./database/models/Resposta')
+const routerP = require('./pergunta/pergunta')
+const routerR = require('./resposta/resposta')
+//const router = require('./pergunta/pergunta')
 
 app.set('view engine', 'ejs')// configurando o motor de HTML, Renderizador de HTML.
  
@@ -20,34 +23,9 @@ connection.authenticate().then(() =>{
     console.log('Erro ao se conectar ao banco '+ erro)
 })
 
-app.get('/', (req, res)=>{
-    Pergunta.findAll({raw: true, order:[ [ 'id', 'desc']] //ASC= CRESCENTE E DESC= DECRECENTE.
-}).then(perguntas =>{
-        res.render('index', {perguntas: perguntas})
-    })
-    
-})
+app.use('/', routerP)
+app.use('/', routerR)
 
-app.get('/perguntar', (req, res)=>{
-   
-    res.render('perguntar')
-})
-
-app.post('/salvapergunta', (req, res)=>{
-    var titulo = req.body.titulo
-    var descricao = req.body.descricao
-
-     Pergunta.create({
-         titulo: titulo,
-         descricao: descricao
-     }).then(()=>{
-         res.redirect('/')
-         console.log('Dados inseridos com sucesso')
-     }).catch((err)=>{
-         console.log('Os dados nao foram iseridos')
-     })
-
-})
 
 app.get('/pergunta/:id?', (req, res)=>{
     var id = req.params.id
@@ -62,10 +40,9 @@ app.get('/pergunta/:id?', (req, res)=>{
                 res.render('pergunta', {pergunta: pergunta, respostas: respostas})
             
         }).catch( ()=>{
-            let nenhuma = 'Ainda não existem respostas para essa pergunta'
-            res.render('pergunta', {pergunta: pergunta, nenhuma: nenhuma})
+            
+            res.render('pergunta', {pergunta: pergunta})
         })
-    
   
     }).catch(() => {
 
@@ -74,24 +51,6 @@ app.get('/pergunta/:id?', (req, res)=>{
 
     })
 })
-
-app.post('/responder', (req, res)=>{
-    var corpo = req.body.corpo
-    var perguntaId = req.body.perguntaId
-
-    Resposta.create({
-        corpo: corpo,
-        perguntaId: perguntaId
-    }).then(()=> {
-        console.log('Pergunta respondida.')
-        res.redirect("/pergunta/"+perguntaId)
-    }).catch((erro)=>{
-        console.log('Houve um problesma ao responder' + erro)
-
-    })
-
-})
-
 
 
 app.listen(3001, ()=>{
