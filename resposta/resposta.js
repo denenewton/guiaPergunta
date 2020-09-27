@@ -18,7 +18,7 @@ router.post('/responder', (req, res)=>{
         perguntaId: perguntaId
     }).then(()=> {
         console.log('Pergunta respondida.')
-        res.redirect("/pergunta/"+perguntaId)
+        res.redirect("/pergunta/" + perguntaId)
     }).catch((erro)=>{
         console.log('Houve um problesma ao responder' + erro)
 
